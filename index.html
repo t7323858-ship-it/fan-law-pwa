@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#102a43"><meta name="description" content="FAN LAW 風扇性能、轉速與噪音推算工具">
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml"><link rel="stylesheet" href="style.css">
+<title>FAN LAW｜風扇性能推算 v4</title>
+</head>
+<body>
+<header><div class="eyebrow">ENGINEERING TOOL</div><h1>FAN LAW</h1><p>風扇性能・轉速・噪音推算</p></header>
+<main>
+<section class="panel input-panel"><div class="section-head"><div><h2>噪音推算條件</h2><p>先輸入每個測試點的實測 Q、P、N，再修改目標轉速</p></div><button id="resetBtn" class="btn secondary">還原範例</button></div>
+<div class="field-grid">
+<label>噪音推算目標轉速 <span>rpm</span><input id="noiseTargetRpm" type="number" min="1" step="1" value="4750"></label>
+<label>噪音基準值 <span>dB(A)</span><input id="noiseBase" type="number" step="0.1" value="57"></label>
+<label>噪音基準轉速 <span>rpm</span><input id="noiseRpm" type="number" min="1" step="1" value="4857"></label>
+</div><p class="hint">噪音預設基準依 Excel 採用 57 dB(A) @ 4857 rpm；噪音目標轉速可獨立修改。PQN 推算則依每列「目標轉速 ÷ 測試轉速」個別計算。</p>
+</section>
+<section class="metrics" aria-live="polite">
+<div class="metric"><span>流量推算規則</span><strong>Q ∝ N</strong><small>流量與轉速成正比</small></div>
+<div class="metric"><span>靜壓推算規則</span><strong>P ∝ N²</strong><small>靜壓與轉速平方成正比</small></div>
+<div class="metric"><span>逐點計算</span><strong>Q / P / N</strong><small>各點使用自己的轉速比</small></div>
+<div class="metric accent"><span>預估噪音</span><strong id="noiseResult">56.5</strong><small>dB(A)，依轉速推算</small></div>
+</section>
+<section class="panel"><div class="section-head"><div><h2>測試 PQN → 修改目標轉速 → 推算 PQN</h2><p>每一列都可自行輸入初始測試 Q、P、N，再填入目標轉速；右側即時推算目標 PQN。</p></div><span class="tag" id="pointCount">5 POINTS</span></div>
+<div class="table-wrap"><table><thead><tr><th>點位</th><th>初始流量 Q（可輸入）<br><small>CFM</small></th><th>初始靜壓 P（可輸入）<br><small>mmAq</small></th><th>初始轉速 N（可輸入）<br><small>rpm</small></th><th>目標轉速（可修改）<br><small>rpm</small></th><th>推算流量 Q<br><small>CFM</small></th><th>推算靜壓 P<br><small>mmAq</small></th><th>推算轉速 N<br><small>rpm</small></th></tr></thead><tbody id="dataRows"></tbody></table></div>
+<div class="actions point-actions"><button id="addPointBtn" class="btn primary">＋ 新增 PQ 點</button><button id="removePointBtn" class="btn secondary">－ 刪除最後一點</button></div><p class="hint">可依測試資料新增或刪除 PQ 點位；至少保留 1 點。新增點位後，請輸入初始 Q、P、N 與目標轉速。</p><div class="actions"><button id="exportBtn" class="btn primary">匯出 CSV</button><button id="copyBtn" class="btn secondary">複製結果摘要</button></div><p id="status" class="status" role="status"></p>
+</section>
+<section class="panel formula"><h2>使用的 FAN LAW</h2><div class="formula-row"><b>流量</b><code>Q₂ = Q₁ × (N₂ / N₁)</code></div><div class="formula-row"><b>靜壓</b><code>P₂ = P₁ × (N₂ / N₁)²</code></div><div class="formula-row"><b>噪音</b><code>L₂ = L₁ + 50 × log₁₀(N₂ / N₁)</code></div><p class="hint">假設風扇幾何、空氣密度及系統條件相同。這是相似律估算，不等於實測結果；實際噪音也會受工作點、流場、共振及馬達電磁激振影響。</p></section>
+</main><footer>FAN LAW Calculator v4 · PQ 點位可增減 · 可離線使用的 PWA</footer>
+<script src="app.js"></script>
+</body></html>

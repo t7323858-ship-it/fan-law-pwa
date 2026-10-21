@@ -1,0 +1,12 @@
+{
+  "name": "FAN LAW 風扇性能推算",
+  "short_name": "FAN LAW",
+  "description": "風扇性能、轉速與噪音推算工具",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f2f6f8",
+  "theme_color": "#102a43",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
